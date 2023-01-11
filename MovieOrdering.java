@@ -5,7 +5,6 @@ public class MovieOrdering {
     public int length;
 
     public MovieOrdering() {
-//        movies = new Movie[SIZE];
         this.length = 0;
     }
     public void addMovie(Movie prevMovie, Movie currentMovie) {
@@ -26,23 +25,18 @@ public class MovieOrdering {
     
     public int currentJoyfulness() {
         Movie p = head;
-        int joyfulness = p.duration; // 120
-
-//        System.out.println(p.next);
-//        System.out.println("Movie title of the head: " + p.title);
-//        System.out.println("Genre of the next movie: " + p.next.genre);
-//        System.out.println("Movie title of the next movie: " + p.next.next.title);
+        int joyfulness = p.duration;
 
         for (int i=0; i < this.length; i++) {
-            if (p != null) {
-                if (p.genre != p.next.genre && p.rating < p.next.rating) {
-                    joyfulness += p.next.duration; // 120 + 110 = 230
+            if (p != null && p.next != null) {
+                if ((p.genre != p.next.genre) && (p.rating < p.next.rating)) {
+                    joyfulness += p.next.duration;
+                    p = p.next;
+                } else {
+                    p = p.next;
                 }
             }
-            p = p.next;
         }
-
-
         return joyfulness;
     }
 
@@ -51,22 +45,19 @@ public class MovieOrdering {
 //    }
 
     public static void main(String[] args) {
-        Movie a = new Movie("Squid Game", "Thriller", 7.6, 120);
+        Movie a = new Movie("Squid Game", "Thriller", 8.6, 120);
         Movie b = new Movie("Spider-Man", "Action", 8.5, 110);
-        Movie c = new Movie("The Matrix Resurrections", "Action", 6.2, 140);
-//        Movie d = new Movie("Avatar 2: The Way of Water", "Sci-fi", 7.9, 180);
+        Movie c = new Movie("The Matrix Resurrections", "Action", 8.7, 140);
+        Movie d = new Movie("Annabelle", "Horror", 9.2, 100);
         MovieOrdering mo = new MovieOrdering();
 
         mo.addMovie(null, a);
         mo.addMovie(a, b);
         mo.addMovie(b, c);
-//        mo.addMovie(c, d);
-//        System.out.println("Number of movies: " + mo.length);
-//        mo.currentJoyfulness();
+        mo.addMovie(c, d);
+
+        System.out.println("Number of movies: " + mo.length);
         System.out.println("Current joyfulness: " + mo.currentJoyfulness());
-//        mo.currentJoyfulness(); // return 230
-//        System.out.println("Current joyfulness: " + mo.currentJoyfulness());
-//        mo.maxJoyfulness(); // return 370
     }
 }
 
